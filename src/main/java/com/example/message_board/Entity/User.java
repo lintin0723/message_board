@@ -17,7 +17,13 @@ public class User {
     @Column(nullable = false)
     private String email;
     @Column(name = "created_at")
-    private Date createAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+    }
 
     public Integer getId() {
         return id;
@@ -52,10 +58,10 @@ public class User {
     }
 
     public Date getCreateAt() {
-        return createAt;
+        return createdAt;
     }
 
     public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+        this.createdAt = createAt;
     }
 }

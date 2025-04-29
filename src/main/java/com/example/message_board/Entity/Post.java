@@ -13,7 +13,6 @@ public class Post {
     private Integer id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @Column(nullable = false)
     private User user;
     @Column(nullable = false)
     private String content;
