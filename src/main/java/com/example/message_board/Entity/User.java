@@ -57,11 +57,11 @@ public class User {
         this.email = email;
     }
 
-    public Date getCreateAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createdAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

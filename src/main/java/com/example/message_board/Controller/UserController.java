@@ -3,10 +3,8 @@ package com.example.message_board.Controller;
 import com.example.message_board.Entity.User;
 import com.example.message_board.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.relational.core.sql.In;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -19,4 +17,18 @@ public class UserController {
         return userService.createUser(user);
     }
 
+    @DeleteMapping("/user/{userId}")
+    public void deleteUser(@PathVariable Integer userId){
+        userService.deleteUserById(userId);
+    }
+
+    @GetMapping("user/{userId}")
+    public User CheckUser(@PathVariable Integer userId){
+        return userService.getUserById(userId);
+    }
+
+    @PutMapping("user/{userId}")
+    public User ChangeInfo(@PathVariable Integer userId, @RequestBody User userRequest){
+        return userService.updateUser(userId,userRequest);
+    }
 }
