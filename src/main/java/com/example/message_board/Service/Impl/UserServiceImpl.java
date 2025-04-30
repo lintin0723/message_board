@@ -1,6 +1,8 @@
 package com.example.message_board.Service.Impl;
 
-import com.example.message_board.Dao.Impl.UserRepository;
+import com.example.message_board.Dao.UserRepository;
+import com.example.message_board.Dto.UserRequest;
+import com.example.message_board.Dto.UserResponse;
 import com.example.message_board.Entity.User;
 import com.example.message_board.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserResponse createUser(UserRequest userRequest) {
+        User user = new User();
+        user.setUsername(userRequest.getUsername());
+        user.setPassword(userRequest.getPassword());
+        user.setEmail(userRequest.getEmail());
+        return toResponse(userRepository.save(user));
     }
 
     @Override
@@ -25,12 +31,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Integer userId) {
-        return userRepository.getUserById(userId);
+    public UserResponse findUserById(Integer userId) {
+        User user = userRepository.findUserById(userId);
+        return toResponse(user);
     }
 
     @Override
-    public User updateUser(Integer userId, User userRequest) {
+    public UserResponse updateUser(Integer userId, User userRequest) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setUsername(userRequest.getUsername());
@@ -38,6 +45,10 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userRequest.getEmail());
         user.setCreatedAt(new Date());
 
-        return userRepository.save(user);
+        return toResponse(userRepository.save(user));
+    }
+
+    private UserResponse toResponse(User user){
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail());
     }
 }
